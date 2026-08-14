@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class LoginController extends Controller
 {
     /**
-     * Menampilkan halaman Login
+     * Menampilkan halaman login
      */
     public function show()
     {
@@ -18,7 +19,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Proses Login
+     * Proses login
      */
     public function login(Request $request)
     {
@@ -27,6 +28,12 @@ class LoginController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | LOGIN BERHASIL
+        |--------------------------------------------------------------------------
+        */
+
         if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
@@ -34,8 +41,18 @@ class LoginController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        return back()->withErrors([
-            'username' => 'Username atau password salah.',
+        /*
+        |--------------------------------------------------------------------------
+        | LOGIN GAGAL
+        |--------------------------------------------------------------------------
+        |
+        | Gunakan key "login" supaya error ini hanya muncul
+        | di notification bagian atas.
+        |
+        */
+
+        throw ValidationException::withMessages([
+            'login' => 'Username atau password salah.',
         ]);
     }
 

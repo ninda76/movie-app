@@ -1,13 +1,16 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+
+use App\Http\Controllers\Auth\LoginController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MovieController;
 use App\Http\Controllers\Admin\FavoriteController;
+
+
+use Inertia\Inertia;
 
 
 /*
@@ -17,26 +20,30 @@ use App\Http\Controllers\Admin\FavoriteController;
 */
 
 Route::get('/', function () {
-    return redirect('/login');
+    return Inertia::render('Splash/Index');
 });
-
 
 /*
 |--------------------------------------------------------------------------
 | LOGIN
 |--------------------------------------------------------------------------
+|
+| Login sekarang menggunakan LoginController.
+| Tidak lagi menggunakan closure di routes/web.php.
+|
 */
+
 
 /*
-| Halaman Login
-|
-| File React:
-| resources/js/Pages/Login/Index.jsx
+|--------------------------------------------------------------------------
+| LOGIN PAGE
+|--------------------------------------------------------------------------
 */
 
-Route::get('/login', function () {
-    return Inertia::render('Login/Index');
-})->name('login');
+Route::get('/login', [
+    LoginController::class,
+    'show'
+])->name('login');
 
 
 /*
@@ -45,65 +52,31 @@ Route::get('/login', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::post('/login', function (Request $request) {
-
-    $credentials = $request->validate([
-        'username' => ['required'],
-        'password' => ['required'],
-    ]);
-
-    if (
-        Auth::attempt([
-            'username' => $credentials['username'],
-            'password' => $credentials['password'],
-        ])
-    ) {
-
-        $request->session()->regenerate();
-
-        return redirect()->intended(
-            '/admin/dashboard'
-        );
-    }
-
-    return back()->withErrors([
-        'login' => 'Username atau password salah.',
-    ]);
-
-})->name('login.process');
+Route::post('/login', [
+    LoginController::class,
+    'login'
+])->name('login.process');
 
 
 /*
 |--------------------------------------------------------------------------
 | LOGOUT
 |--------------------------------------------------------------------------
-|
-| PENTING:
-| Logout menggunakan POST.
-|
-| Jangan menggunakan:
-|
-| GET /logout
-|
 */
 
-Route::post('/logout', function (Request $request) {
-
-    Auth::logout();
-
-    $request->session()->invalidate();
-
-    $request->session()->regenerateToken();
-
-    return redirect('/login');
-
-})->name('logout');
+Route::post('/logout', [
+    LoginController::class,
+    'logout'
+])->name('logout');
 
 
 /*
 |--------------------------------------------------------------------------
 | ADMIN
 |--------------------------------------------------------------------------
+|
+| Semua halaman admin harus login terlebih dahulu.
+|
 */
 
 Route::middleware('auth')->group(function () {
@@ -139,8 +112,8 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     |
     | Digunakan oleh:
-    | - Movie List modal
-    | - Favorite modal
+    | - Movie List
+    | - Favorite
     |
     */
 
@@ -174,8 +147,11 @@ Route::middleware('auth')->group(function () {
 |
 */
 
+
 /*
-| Tambah Favorite
+|--------------------------------------------------------------------------
+| ADD FAVORITE
+|--------------------------------------------------------------------------
 */
 
 Route::post(
@@ -185,7 +161,9 @@ Route::post(
 
 
 /*
-| Hapus Favorite
+|--------------------------------------------------------------------------
+| DELETE FAVORITE
+|--------------------------------------------------------------------------
 */
 
 Route::delete(

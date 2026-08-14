@@ -1,6 +1,12 @@
+/* =========================================================
+   SPLASH PAGE
+========================================================= */
+
 .splash-page {
 
     min-height: 100vh;
+
+    width: 100%;
 
     display: flex;
 
@@ -12,6 +18,8 @@
 
     overflow: hidden;
 
+    box-sizing: border-box;
+
     background:
         linear-gradient(
             135deg,
@@ -20,14 +28,19 @@
             #06b6d4 100%
         );
 
-    font-family: "Poppins", sans-serif;
+    font-family:
+        "Poppins",
+        Arial,
+        sans-serif;
 
     color: white;
 
 }
 
 
-/* Background */
+/* =========================================================
+   BACKGROUND SHAPES
+========================================================= */
 
 .splash-shape {
 
@@ -35,7 +48,9 @@
 
     border-radius: 50%;
 
-    background: rgba(255,255,255,.08);
+    background: rgba(255, 255, 255, 0.08);
+
+    pointer-events: none;
 
 }
 
@@ -64,7 +79,9 @@
 }
 
 
-/* Content */
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
 
 .splash-content {
 
@@ -72,67 +89,93 @@
 
     z-index: 2;
 
+    width: 100%;
+
+    max-width: 700px;
+
     text-align: center;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    /*
+       Turunkan seluruh konten sedikit
+       supaya ilustrasi tidak terlalu tinggi
+    */
+
+    transform: translateY(35px);
 
 }
 
 
-/* Office animation */
+/* =========================================================
+   OFFICE ILLUSTRATION
+========================================================= */
 
 .office-animation {
 
-    width: 300px;
+    width: 360px;
 
-    height: 220px;
+    height: 280px;
 
     position: relative;
 
-    margin: 0 auto 20px;
+    margin: 0 auto 15px;
 
 }
 
 
-/* Person */
+/* =========================================================
+   PERSON
+========================================================= */
 
 .person {
-
     position: absolute;
+    width: 120px;
+    height: 165px;
 
-    left: 70px;
+    left: 120px;
+    bottom: 42px;
 
-    bottom: 55px;
+    z-index: 3;
 
-    width: 110px;
-
-    height: 150px;
-
-    animation: personMove 1.5s infinite ease-in-out;
-
+    animation:
+        personMove
+        1.5s
+        infinite
+        ease-in-out;
 }
-
-
-/* Head */
+/* =========================================================
+   PERSON HEAD
+========================================================= */
 
 .person-head {
 
     position: absolute;
 
-    width: 55px;
+    width: 58px;
 
-    height: 55px;
+    height: 58px;
 
     border-radius: 50%;
 
     background: #f3c7a5;
 
-    left: 28px;
+    left: 31px;
 
     top: 0;
 
 }
 
 
-/* Hair */
+/* =========================================================
+   HAIR
+========================================================= */
 
 .person-head::before {
 
@@ -140,11 +183,15 @@
 
     position: absolute;
 
-    width: 55px;
+    width: 58px;
 
-    height: 25px;
+    height: 27px;
 
-    border-radius: 30px 30px 5px 5px;
+    border-radius:
+        32px
+        32px
+        6px
+        6px;
 
     background: #263238;
 
@@ -155,28 +202,36 @@
 }
 
 
-/* Body */
+/* =========================================================
+   BODY
+========================================================= */
 
 .person-body {
 
     position: absolute;
 
-    width: 70px;
+    width: 76px;
 
-    height: 80px;
+    height: 88px;
 
-    border-radius: 20px 20px 10px 10px;
+    border-radius:
+        22px
+        22px
+        12px
+        12px;
 
     background: #ffffff;
 
-    left: 20px;
+    left: 22px;
 
-    top: 52px;
+    top: 56px;
 
 }
 
 
-/* Tie */
+/* =========================================================
+   TIE
+========================================================= */
 
 .person-body::after {
 
@@ -184,88 +239,260 @@
 
     position: absolute;
 
-    width: 8px;
+    width: 9px;
 
-    height: 40px;
+    height: 43px;
 
     background: #4f46e5;
 
-    left: 31px;
+    left: 34px;
 
-    top: 5px;
+    top: 7px;
 
     transform: skew(-5deg);
+
+    border-radius: 2px;
 
 }
 
 
-/* Arms */
+/* =========================================================
+   ARMS
+========================================================= */
 
 .person-arm {
 
     position: absolute;
 
-    width: 55px;
+    width: 58px;
 
-    height: 12px;
+    height: 13px;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
     background: #f3c7a5;
 
-    top: 65px;
+    top: 69px;
+
+    z-index: 4;
 
     transform-origin: left center;
 
 }
 
 
-/* Writing arm */
+/* Left arm */
 
 .person-arm-left {
 
     left: 10px;
 
-    transform: rotate(30deg);
+    transform:
+        rotate(30deg);
 
-    animation: writingArm .5s infinite alternate ease-in-out;
+    animation:
+        writingArm
+        0.5s
+        infinite
+        alternate
+        ease-in-out;
 
 }
 
 
-/* Other arm */
+/* Right arm */
 
 .person-arm-right {
 
-    left: 70px;
+    left: 76px;
 
-    transform: rotate(145deg);
+    transform:
+        rotate(145deg);
 
 }
 
 
-/* Desk */
+/* =========================================================
+   LAPTOP
+========================================================= */
+
+.laptop {
+    position: absolute;
+    width: 125px;
+    height: 90px;
+
+    left: 117px;
+    bottom: 54px;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   LAPTOP SCREEN
+========================================================= */
+
+.laptop-screen {
+
+    width: 112px;
+
+    height: 68px;
+
+    margin: 0 auto;
+
+    box-sizing: border-box;
+
+    border:
+        5px solid #b8bec6;
+
+    border-radius:
+        8px
+        8px
+        3px
+        3px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f1f3f5,
+            #cfd4da
+        );
+
+    padding: 14px 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    box-shadow:
+        0 4px 8px
+        rgba(0, 0, 0, 0.18);
+
+}
+
+
+/* =========================================================
+   LAPTOP SCREEN LINES
+========================================================= */
+
+.laptop-screen span {
+
+    display: block;
+
+    height: 5px;
+
+    border-radius: 5px;
+
+    background: #6699e8;
+
+    animation:
+        typing
+        1s
+        infinite
+        alternate;
+
+}
+
+.laptop-screen span:nth-child(1) {
+
+    width: 82%;
+
+}
+
+.laptop-screen span:nth-child(2) {
+
+    width: 65%;
+
+    animation-delay: 0.2s;
+
+}
+
+.laptop-screen span:nth-child(3) {
+
+    width: 45%;
+
+    animation-delay: 0.4s;
+
+}
+
+
+/* =========================================================
+   LAPTOP BASE
+========================================================= */
+
+.laptop-base {
+
+    width: 130px;
+
+    height: 9px;
+
+    margin-left: -3px;
+
+    margin-top: -1px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #d8dde2,
+            #9da5ad
+        );
+
+    border-radius:
+        0
+        0
+        12px
+        12px;
+
+    box-shadow:
+        0 3px 5px
+        rgba(0, 0, 0, 0.18);
+
+}
+
+
+/* =========================================================
+   DESK
+========================================================= */
 
 .desk {
 
     position: absolute;
 
-    bottom: 45px;
+    /*
+       MEJA BERADA DI BAWAH LAPTOP
+    */
 
-    left: 20px;
+    width: 300px;
 
-    width: 260px;
+    height: 20px;
 
-    height: 18px;
+    left: 30px;
 
-    border-radius: 10px;
+    bottom: 48px;
 
-    background: rgba(255,255,255,.9);
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #ffffff,
+            #e7ebf0
+        );
+
+    box-shadow:
+        0 4px 8px
+        rgba(0, 0, 0, 0.12);
+
+    z-index: 2;
 
 }
 
 
-/* Desk legs */
+/* =========================================================
+   DESK LEGS
+========================================================= */
 
 .desk::before {
 
@@ -273,17 +500,26 @@
 
     position: absolute;
 
-    width: 10px;
+    width: 11px;
 
-    height: 50px;
+    height: 60px;
 
-    background: rgba(255,255,255,.75);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.8
+        );
 
-    left: 30px;
+    left: 38px;
 
-    top: 15px;
+    top: 18px;
+
+    border-radius: 0 0 3px 3px;
 
 }
+
 
 .desk::after {
 
@@ -291,122 +527,43 @@
 
     position: absolute;
 
-    width: 10px;
+    width: 11px;
 
-    height: 50px;
+    height: 60px;
 
-    background: rgba(255,255,255,.75);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.8
+        );
 
-    right: 30px;
+    right: 38px;
 
-    top: 15px;
+    top: 18px;
 
-}
-
-
-/* Laptop */
-
-.laptop {
-
-    position: absolute;
-
-    width: 100px;
-
-    height: 70px;
-
-    left: 105px;
-
-    bottom: 15px;
+    border-radius: 0 0 3px 3px;
 
 }
 
 
-/* Laptop screen */
-
-.laptop-screen {
-
-    width: 90px;
-
-    height: 55px;
-
-    margin: auto;
-
-    border: 5px solid #263238;
-
-    border-radius: 6px 6px 2px 2px;
-
-    background: #0f172a;
-
-    padding: 10px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 5px;
-
-}
-
-
-/* Screen typing lines */
-
-.laptop-screen span {
-
-    height: 4px;
-
-    border-radius: 4px;
-
-    background: #60a5fa;
-
-    animation: typing 1s infinite alternate;
-
-}
-
-.laptop-screen span:nth-child(2) {
-
-    width: 70%;
-
-    animation-delay: .2s;
-
-}
-
-.laptop-screen span:nth-child(3) {
-
-    width: 50%;
-
-    animation-delay: .4s;
-
-}
-
-
-/* Laptop base */
-
-.laptop-base {
-
-    width: 105px;
-
-    height: 7px;
-
-    background: #263238;
-
-    border-radius: 0 0 10px 10px;
-
-    margin-left: -8px;
-
-}
-
-
-/* Writing effect */
+/* =========================================================
+   WRITING EFFECT
+========================================================= */
 
 .writing-effect {
 
     position: absolute;
 
-    left: 100px;
+    left: 165px;
 
-    bottom: 25px;
+    bottom: 22px;
+
+    z-index: 6;
 
 }
+
 
 .writing-effect span {
 
@@ -424,73 +581,90 @@
 
     opacity: 0;
 
-    animation: writingDot .8s infinite;
+    animation:
+        writingDot
+        0.8s
+        infinite;
 
 }
+
 
 .writing-effect span:nth-child(2) {
 
-    animation-delay: .2s;
+    animation-delay: 0.2s;
 
 }
+
 
 .writing-effect span:nth-child(3) {
 
-    animation-delay: .4s;
+    animation-delay: 0.4s;
 
 }
 
 
-/* Person movement */
+/* =========================================================
+   PERSON FLOATING ANIMATION
+========================================================= */
 
 @keyframes personMove {
 
     0%,
     100% {
 
-        transform: translateY(0);
+        transform:
+            translateY(0);
 
     }
 
     50% {
 
-        transform: translateY(-5px);
+        transform:
+            translateY(-4px);
 
     }
 
 }
 
 
-/* Writing */
+/* =========================================================
+   WRITING ARM
+========================================================= */
 
 @keyframes writingArm {
 
     0% {
 
-        transform: rotate(25deg);
+        transform:
+            rotate(25deg);
 
     }
 
     100% {
 
-        transform: rotate(45deg);
+        transform:
+            rotate(43deg);
 
     }
 
 }
 
 
-/* Typing */
+/* =========================================================
+   LAPTOP TYPING
+========================================================= */
 
 @keyframes typing {
 
     0% {
 
-        opacity: .3;
+        opacity: 0.35;
 
-        transform: scaleX(.7);
+        transform:
+            scaleX(0.7);
 
-        transform-origin: left;
+        transform-origin:
+            left;
 
     }
 
@@ -498,14 +672,17 @@
 
         opacity: 1;
 
-        transform: scaleX(1);
+        transform:
+            scaleX(1);
 
     }
 
 }
 
 
-/* Writing dots */
+/* =========================================================
+   WRITING DOTS
+========================================================= */
 
 @keyframes writingDot {
 
@@ -513,7 +690,8 @@
 
         opacity: 0;
 
-        transform: translateX(0);
+        transform:
+            translateX(0);
 
     }
 
@@ -521,7 +699,8 @@
 
         opacity: 1;
 
-        transform: translateX(15px);
+        transform:
+            translateX(15px);
 
     }
 
@@ -529,29 +708,43 @@
 
         opacity: 0;
 
-        transform: translateX(25px);
+        transform:
+            translateX(25px);
 
     }
 
 }
 
 
-/* Title */
+/* =========================================================
+   TITLE
+========================================================= */
 
 .splash-title {
 
     margin: 0;
 
-    font-size: 56px;
+    font-size: 58px;
+
+    line-height: 1.1;
 
     font-weight: 700;
 
     letter-spacing: 12px;
 
-    animation: titleAppear 1s ease;
+    color: white;
+
+    animation:
+        titleAppear
+        1s
+        ease;
 
 }
 
+
+/* =========================================================
+   TITLE ANIMATION
+========================================================= */
 
 @keyframes titleAppear {
 
@@ -559,7 +752,8 @@
 
         opacity: 0;
 
-        transform: translateY(15px);
+        transform:
+            translateY(15px);
 
     }
 
@@ -567,46 +761,69 @@
 
         opacity: 1;
 
-        transform: translateY(0);
+        transform:
+            translateY(0);
 
     }
 
 }
 
 
-/* Subtitle */
+/* =========================================================
+   SUBTITLE
+========================================================= */
 
 .splash-subtitle {
 
-    margin-top: 8px;
+    margin-top: 18px;
 
-    margin-bottom: 25px;
+    margin-bottom: 28px;
 
-    font-size: 17px;
+    font-size: 18px;
 
-    color: rgba(255,255,255,.8);
+    line-height: 1.4;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.85
+        );
 
 }
 
 
-/* Loading */
+/* =========================================================
+   LOADING CONTAINER
+========================================================= */
 
 .loading-container {
 
-    width: 220px;
+    width: 240px;
 
-    margin: auto;
+    margin: 0 auto;
 
 }
 
+
+/* =========================================================
+   LOADING BAR
+========================================================= */
 
 .loading-bar {
 
     width: 100%;
 
-    height: 5px;
+    height: 6px;
 
-    background: rgba(255,255,255,.2);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.25
+        );
 
     border-radius: 10px;
 
@@ -614,6 +831,10 @@
 
 }
 
+
+/* =========================================================
+   LOADING PROGRESS
+========================================================= */
 
 .loading-progress {
 
@@ -625,7 +846,11 @@
 
     border-radius: 10px;
 
-    animation: loadingProgress 3s linear forwards;
+    animation:
+        loadingProgress
+        3s
+        linear
+        forwards;
 
 }
 
@@ -647,34 +872,152 @@
 }
 
 
+/* =========================================================
+   LOADING TEXT
+========================================================= */
+
 .loading-text {
 
     display: block;
 
-    margin-top: 8px;
+    margin-top: 9px;
 
-    font-size: 12px;
+    font-size: 13px;
 
-    color: rgba(255,255,255,.65);
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.7
+        );
 
 }
 
 
-/* Mobile */
+/* =========================================================
+   TABLET
+========================================================= */
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+
+    .splash-content {
+
+        transform:
+            translateY(25px);
+
+    }
 
     .office-animation {
 
-        transform: scale(.8);
+        transform:
+            scale(0.9);
+
+        transform-origin:
+            center;
+
+        margin-bottom: 5px;
 
     }
 
     .splash-title {
 
-        font-size: 42px;
+        font-size: 48px;
 
-        letter-spacing: 8px;
+        letter-spacing: 9px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .splash-page {
+
+        min-height: 100svh;
+
+    }
+
+    .splash-content {
+
+        transform:
+            translateY(15px);
+
+        padding:
+            0 15px;
+
+        box-sizing: border-box;
+
+    }
+
+    .office-animation {
+
+        width: 360px;
+
+        height: 250px;
+
+        transform:
+            scale(0.72);
+
+        transform-origin:
+            center;
+
+        margin-bottom: -10px;
+
+    }
+
+    .splash-title {
+
+        font-size: 34px;
+
+        letter-spacing: 6px;
+
+        white-space: nowrap;
+
+    }
+
+    .splash-subtitle {
+
+        font-size: 14px;
+
+        margin-top: 12px;
+
+        margin-bottom: 20px;
+
+    }
+
+    .loading-container {
+
+        width: 190px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .office-animation {
+
+        transform:
+            scale(0.62);
+
+    }
+
+    .splash-title {
+
+        font-size: 29px;
+
+        letter-spacing: 5px;
 
     }
 

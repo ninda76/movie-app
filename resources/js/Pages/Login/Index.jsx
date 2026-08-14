@@ -1,56 +1,10 @@
-import {
-    Head,
-    useForm,
-} from "@inertiajs/react";
-
-import {
-    useEffect,
-    useState,
-} from "react";
-
-import LoadingScreen
-    from "@/Components/LoadingScreen";
+import React, { useState } from "react";
+import { Head, useForm } from "@inertiajs/react";
 
 import "./login.css";
 
-
 export default function Index() {
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOADING
-    |--------------------------------------------------------------------------
-    */
-
-    const [loading, setLoading] =
-        useState(true);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | PASSWORD
-    |--------------------------------------------------------------------------
-    */
-
-    const [showPassword, setShowPassword] =
-        useState(false);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOGIN ERROR
-    |--------------------------------------------------------------------------
-    */
-
-    const [loginError, setLoginError] =
-        useState("");
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | FORM
-    |--------------------------------------------------------------------------
-    */
+    const [showPassword, setShowPassword] = useState(false);
 
     const {
         data,
@@ -58,432 +12,266 @@ export default function Index() {
         post,
         processing,
         errors,
+        clearErrors,
     } = useForm({
         username: "",
         password: "",
     });
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOADING SCREEN
-    |--------------------------------------------------------------------------
-    */
-
-    useEffect(() => {
-
-        const timer = setTimeout(() => {
-
-            setLoading(false);
-
-        }, 3000);
-
-
-        return () => {
-            clearTimeout(timer);
-        };
-
-    }, []);
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOGIN
-    |--------------------------------------------------------------------------
-    */
-
-    const handleSubmit = (e) => {
-
-        e.preventDefault();
-
-        setLoginError("");
-
+    const handleLogin = () => {
+        clearErrors();
 
         post("/login", {
-
             preserveScroll: true,
 
-            onError: (errors) => {
-
-                console.log(
-                    "LOGIN ERRORS:",
-                    errors
-                );
-
-
-                if (errors.login) {
-
-                    setLoginError(
-                        errors.login
-                    );
-
-                    return;
-                }
-
-
-                if (errors.username) {
-
-                    setLoginError(
-                        errors.username
-                    );
-
-                    return;
-                }
-
-
-                if (errors.password) {
-
-                    setLoginError(
-                        errors.password
-                    );
-
-                    return;
-                }
-
-
-                setLoginError(
-                    "Username atau password salah."
-                );
-
+            onStart: () => {
+                console.log("LOGIN: POST /login");
             },
 
-        });
+            onSuccess: () => {
+                console.log("LOGIN: SUCCESS");
+            },
 
+            onError: (errors) => {
+                console.log("LOGIN: ERROR", errors);
+            },
+
+            onFinish: () => {
+                console.log("LOGIN: FINISHED");
+            },
+        });
     };
 
-
     /*
     |--------------------------------------------------------------------------
-    | LOADING SCREEN
+    | LOGIN ERROR SAJA
     |--------------------------------------------------------------------------
+    |
+    | errors.login hanya digunakan untuk error:
+    | "Username atau password salah."
+    |
+    | errors.username dan errors.password hanya tampil
+    | di masing-masing field.
+    |
     */
 
-    if (loading) {
-
-        return (
-            <LoadingScreen />
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOGIN PAGE
-    |--------------------------------------------------------------------------
-    */
+    const errorMessage = errors.login || "";
 
     return (
         <>
-
             <Head title="Login" />
-
 
             <div className="login-page">
 
-
-                {/* =================================================
-                    BACKGROUND
-                ================================================== */}
-
-                <div
-                    className="
-                        login-circle
-                        login-circle-left
-                    "
-                />
-
-                <div
-                    className="
-                        login-circle
-                        login-circle-right
-                    "
-                />
-
-
-                {/* =================================================
-                    LOGIN CARD
-                ================================================== */}
+                {/* Background */}
+                <div className="login-bg-circle login-bg-circle-1"></div>
+                <div className="login-bg-circle login-bg-circle-2"></div>
 
                 <div className="login-card">
 
-
-                    {/* =================================================
-                        LOGO
-                    ================================================== */}
-
+                    {/* Logo */}
                     <div className="login-logo">
-
-                        <span>
-                            🎬
-                        </span>
-
+                        <span>🎬</span>
                     </div>
 
-
-                    {/* =================================================
-                        HEADER
-                    ================================================== */}
-
+                    {/* Header */}
                     <div className="login-header">
-
-                        <h1>
+                        <h1 className="login-title">
                             Welcome
                         </h1>
 
-                        <p>
+                        <p className="login-subtitle">
                             Sign in to your Movie App account
                         </p>
-
                     </div>
 
 
-                    {/* =================================================
-                        FORM
-                    ================================================== */}
+                    {/* ERROR NOTIFICATION */}
+                    {errorMessage && (
+                        <div className="login-error">
 
-                    <form
-                        onSubmit={handleSubmit}
-                    >
+                            <span className="login-error-icon">
+                                ⚠️
+                            </span>
 
+                            <div className="login-error-content">
 
-                        {/* =================================================
-                            GENERAL ERROR
-                        ================================================== */}
+                                <strong>
+                                    Login gagal
+                                </strong>
 
-                        {loginError && (
+                                <span>
+                                    {errorMessage}
+                                </span>
 
-                            <div
-                                className="
-                                    login-error
-                                    login-error-general
-                                "
-                            >
-                                {loginError}
                             </div>
 
-                        )}
+                        </div>
+                    )}
 
 
-                        {/* =================================================
-                            USERNAME
-                        ================================================== */}
+                    {/* LOGIN FORM */}
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleLogin();
+                        }}
+                    >
 
+                        {/* USERNAME */}
                         <div className="form-group">
 
                             <label htmlFor="username">
                                 Username
                             </label>
 
-
-                            <div className="input-container">
+                            <div
+                                className={`input-wrapper ${
+                                    errors.username
+                                        ? "input-error"
+                                        : ""
+                                }`}
+                            >
 
                                 <span className="input-icon">
                                     👤
                                 </span>
 
-
                                 <input
                                     id="username"
-                                    type="text"
                                     name="username"
-
-                                    value={
-                                        data.username
-                                    }
-
+                                    type="text"
+                                    value={data.username}
                                     onChange={(e) => {
-
                                         setData(
                                             "username",
                                             e.target.value
                                         );
 
-                                        setLoginError("");
+                                        if (errors.username) {
+                                            clearErrors("username");
+                                        }
 
+                                        if (errors.login) {
+                                            clearErrors("login");
+                                        }
                                     }}
-
-                                    placeholder="Enter your username"
-
                                     autoComplete="username"
-
-                                    disabled={
-                                        processing
-                                    }
+                                    placeholder="Enter username"
                                 />
 
                             </div>
 
-
                             {errors.username && (
-
-                                <div className="login-error">
-
+                                <div className="field-error">
                                     {errors.username}
-
                                 </div>
-
                             )}
 
                         </div>
 
 
-                        {/* =================================================
-                            PASSWORD
-                        ================================================== */}
-
+                        {/* PASSWORD */}
                         <div className="form-group">
 
                             <label htmlFor="password">
                                 Password
                             </label>
 
-
-                            <div className="input-container">
+                            <div
+                                className={`input-wrapper ${
+                                    errors.password
+                                        ? "input-error"
+                                        : ""
+                                }`}
+                            >
 
                                 <span className="input-icon">
-                                    🔒
+                                    🔐
                                 </span>
-
 
                                 <input
                                     id="password"
-
+                                    name="password"
                                     type={
                                         showPassword
                                             ? "text"
                                             : "password"
                                     }
-
-                                    name="password"
-
-                                    value={
-                                        data.password
-                                    }
-
+                                    value={data.password}
                                     onChange={(e) => {
-
                                         setData(
                                             "password",
                                             e.target.value
                                         );
 
-                                        setLoginError("");
+                                        if (errors.password) {
+                                            clearErrors("password");
+                                        }
 
+                                        if (errors.login) {
+                                            clearErrors("login");
+                                        }
                                     }}
-
-                                    placeholder="Enter your password"
-
                                     autoComplete="current-password"
-
-                                    disabled={
-                                        processing
-                                    }
+                                    placeholder="Enter password"
                                 />
-
-
-                                {/* SHOW PASSWORD */}
 
                                 <button
                                     type="button"
-
-                                    className="
-                                        password-toggle
-                                    "
-
+                                    className="password-toggle"
                                     onClick={() =>
                                         setShowPassword(
                                             !showPassword
                                         )
                                     }
-
-                                    disabled={
-                                        processing
-                                    }
-
-                                    aria-label={
-                                        showPassword
-                                            ? "Hide password"
-                                            : "Show password"
-                                    }
+                                    tabIndex="-1"
                                 >
-                                    👁️
+                                    {showPassword
+                                        ? "🙈"
+                                        : "👁️"}
                                 </button>
 
                             </div>
 
-
                             {errors.password && (
-
-                                <div className="login-error">
-
+                                <div className="field-error">
                                     {errors.password}
-
                                 </div>
-
                             )}
 
                         </div>
 
 
-                        {/* =================================================
-                            LOGIN BUTTON
-                        ================================================== */}
-
+                        {/* LOGIN BUTTON */}
                         <button
                             type="submit"
-
-                            className="
-                                login-button
-                            "
-
-                            disabled={
-                                processing
-                            }
+                            className="login-button"
+                            disabled={processing}
                         >
 
                             {processing ? (
-
                                 <>
-                                    <span
-                                        className="
-                                            button-spinner
-                                        "
-                                    />
+                                    <span className="login-spinner"></span>
 
-                                    <span>
-                                        Signing in...
-                                    </span>
+                                    Logging in...
                                 </>
-
                             ) : (
-
                                 <>
-                                    <span>
-                                        Login
-                                    </span>
+                                    Login
 
-                                    <span
-                                        className="
-                                            login-arrow
-                                        "
-                                    >
+                                    <span className="login-arrow">
                                         →
                                     </span>
                                 </>
-
                             )}
 
                         </button>
 
-
                     </form>
 
 
-                    {/* =================================================
-                        FOOTER
-                    ================================================== */}
-
+                    {/* FOOTER */}
                     <div className="login-footer">
 
                         <span>
@@ -496,11 +284,8 @@ export default function Index() {
 
                     </div>
 
-
                 </div>
-
             </div>
-
         </>
     );
 }

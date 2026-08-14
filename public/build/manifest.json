@@ -16,20 +16,6 @@
       "_jsx-runtime-CRryOo8A.js"
     ]
   },
-  "_LoadingScreen-BhDQxFHe.css": {
-    "file": "assets/LoadingScreen-BhDQxFHe.css",
-    "src": "_LoadingScreen-BhDQxFHe.css"
-  },
-  "_LoadingScreen-DyzEABuO.js": {
-    "file": "assets/LoadingScreen-DyzEABuO.js",
-    "name": "LoadingScreen",
-    "imports": [
-      "_jsx-runtime-CRryOo8A.js"
-    ],
-    "css": [
-      "assets/LoadingScreen-BhDQxFHe.css"
-    ]
-  },
   "_fonts-C9MNnjVw.css": {
     "file": "assets/fonts-C9MNnjVw.css",
     "src": "_fonts-C9MNnjVw.css"
@@ -70,7 +56,7 @@
     "name": "rolldown-runtime"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DjxJzAPM.css",
+    "file": "assets/app-CDeN2PLQ.css",
     "name": "app",
     "names": [
       "app.css"
@@ -103,17 +89,16 @@
     ]
   },
   "resources/js/Pages/Login/Index.jsx": {
-    "file": "assets/Index-BAuNtAmT.js",
+    "file": "assets/Index-CMVRvymw.js",
     "name": "Index",
     "src": "resources/js/Pages/Login/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-hePW80VL.js",
-      "_jsx-runtime-CRryOo8A.js",
-      "_LoadingScreen-DyzEABuO.js"
+      "_jsx-runtime-CRryOo8A.js"
     ],
     "css": [
-      "assets/Index-D1YeS4GH.css"
+      "assets/Index-CxyhdECT.css"
     ]
   },
   "resources/js/Pages/Movie/Detail.jsx": {
@@ -135,18 +120,20 @@
     ]
   },
   "resources/js/Pages/Splash/Index.jsx": {
-    "file": "assets/Index-DGF7XcAQ.js",
+    "file": "assets/Index-D3IGJfuo.js",
     "name": "Index",
     "src": "resources/js/Pages/Splash/Index.jsx",
     "isDynamicEntry": true,
     "imports": [
       "_rolldown-runtime-hePW80VL.js",
-      "_jsx-runtime-CRryOo8A.js",
-      "_LoadingScreen-DyzEABuO.js"
+      "_jsx-runtime-CRryOo8A.js"
+    ],
+    "css": [
+      "assets/Index-Dkc5l0ER.css"
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-DMLE99ty.js",
+    "file": "assets/app-D1w2TVnY.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -164,7 +151,7 @@
       "resources/js/Pages/Splash/Index.jsx"
     ],
     "css": [
-      "assets/app-DjxJzAPM.css"
+      "assets/app-CDeN2PLQ.css"
     ]
   }
 }
