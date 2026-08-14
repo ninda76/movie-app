@@ -42,6 +42,11 @@ export default function AdminLayout({
         );
 
 
+    // Responsive mobile sidebar
+    const [mobileSidebarOpen, setMobileSidebarOpen] =
+        useState(false);
+
+
     const languageRef = useRef(null);
 
     const adminRef = useRef(null);
@@ -318,6 +323,70 @@ export default function AdminLayout({
     };
 
 
+    const responsiveStyles = `
+        .movie-admin-sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .movie-admin-mobile-menu,
+        .movie-admin-mobile-overlay {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .movie-admin-sidebar {
+                width: 86vw !important;
+                min-width: 0 !important;
+                max-width: 350px !important;
+                transform: translateX(-100%);
+                box-shadow: 8px 0 30px rgba(0,0,0,0.20);
+            }
+
+            .movie-admin-sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .movie-admin-main {
+                margin-left: 0 !important;
+                width: 100% !important;
+            }
+
+            .movie-admin-header {
+                justify-content: space-between !important;
+                padding: 0 16px !important;
+                gap: 10px !important;
+            }
+
+            .movie-admin-mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                width: 42px;
+                height: 42px;
+                border: 1px solid #dbe3ef;
+                border-radius: 12px;
+                background: white;
+                color: #020617;
+                cursor: pointer;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            }
+
+            .movie-admin-mobile-menu:hover {
+                background: #eef2ff;
+            }
+
+            .movie-admin-mobile-overlay {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 45;
+                background: rgba(2,6,23,0.55);
+            }
+        }
+    `;
+
+
     return (
 
         <div
@@ -333,11 +402,22 @@ export default function AdminLayout({
             }}
         >
 
+            <style>{responsiveStyles}</style>
+
+
             {/* =========================================================
                 SIDEBAR
             ========================================================== */}
 
             <aside
+                className={`movie-admin-sidebar ${
+                    mobileSidebarOpen ? "mobile-open" : ""
+                }`}
+                onClick={(event) => {
+                    if (event.target.closest("a")) {
+                        setMobileSidebarOpen(false);
+                    }
+                }}
                 style={{
                     width: "350px",
 
@@ -1206,11 +1286,21 @@ export default function AdminLayout({
             </aside>
 
 
+            {mobileSidebarOpen && (
+                <div
+                    className="movie-admin-mobile-overlay"
+                    onClick={() => setMobileSidebarOpen(false)}
+                    aria-hidden="true"
+                />
+            )}
+
+
             {/* =========================================================
                 MAIN CONTENT
             ========================================================== */}
 
             <main
+                className="movie-admin-main"
                 style={{
                     marginLeft:
                         "350px",
@@ -1240,6 +1330,7 @@ export default function AdminLayout({
                 ====================================================== */}
 
                 <header
+                    className="movie-admin-header"
                     style={{
                         height:
                             "72px",
@@ -1278,6 +1369,33 @@ export default function AdminLayout({
                             40,
                     }}
                 >
+
+                    <button
+                        type="button"
+                        className="movie-admin-mobile-menu"
+                        onClick={() => {
+                            setMobileSidebarOpen(true);
+                            setLanguageOpen(false);
+                            setAdminOpen(false);
+                        }}
+                        aria-label="Open menu"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="h-5 w-5"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4 6h16M4 12h16M4 18h16"
+                            />
+                        </svg>
+                    </button>
+
 
                     {/* =================================================
                         LANGUAGE
