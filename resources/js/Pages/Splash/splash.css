@@ -1,0 +1,681 @@
+.splash-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4f46e5 0%,
+            #2563eb 50%,
+            #06b6d4 100%
+        );
+
+    font-family: "Poppins", sans-serif;
+
+    color: white;
+
+}
+
+
+/* Background */
+
+.splash-shape {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.08);
+
+}
+
+.splash-shape-one {
+
+    width: 500px;
+
+    height: 500px;
+
+    top: -250px;
+
+    left: -180px;
+
+}
+
+.splash-shape-two {
+
+    width: 450px;
+
+    height: 450px;
+
+    right: -180px;
+
+    bottom: -220px;
+
+}
+
+
+/* Content */
+
+.splash-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    text-align: center;
+
+}
+
+
+/* Office animation */
+
+.office-animation {
+
+    width: 300px;
+
+    height: 220px;
+
+    position: relative;
+
+    margin: 0 auto 20px;
+
+}
+
+
+/* Person */
+
+.person {
+
+    position: absolute;
+
+    left: 70px;
+
+    bottom: 55px;
+
+    width: 110px;
+
+    height: 150px;
+
+    animation: personMove 1.5s infinite ease-in-out;
+
+}
+
+
+/* Head */
+
+.person-head {
+
+    position: absolute;
+
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: #f3c7a5;
+
+    left: 28px;
+
+    top: 0;
+
+}
+
+
+/* Hair */
+
+.person-head::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 55px;
+
+    height: 25px;
+
+    border-radius: 30px 30px 5px 5px;
+
+    background: #263238;
+
+    top: -2px;
+
+    left: 0;
+
+}
+
+
+/* Body */
+
+.person-body {
+
+    position: absolute;
+
+    width: 70px;
+
+    height: 80px;
+
+    border-radius: 20px 20px 10px 10px;
+
+    background: #ffffff;
+
+    left: 20px;
+
+    top: 52px;
+
+}
+
+
+/* Tie */
+
+.person-body::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+
+    height: 40px;
+
+    background: #4f46e5;
+
+    left: 31px;
+
+    top: 5px;
+
+    transform: skew(-5deg);
+
+}
+
+
+/* Arms */
+
+.person-arm {
+
+    position: absolute;
+
+    width: 55px;
+
+    height: 12px;
+
+    border-radius: 10px;
+
+    background: #f3c7a5;
+
+    top: 65px;
+
+    transform-origin: left center;
+
+}
+
+
+/* Writing arm */
+
+.person-arm-left {
+
+    left: 10px;
+
+    transform: rotate(30deg);
+
+    animation: writingArm .5s infinite alternate ease-in-out;
+
+}
+
+
+/* Other arm */
+
+.person-arm-right {
+
+    left: 70px;
+
+    transform: rotate(145deg);
+
+}
+
+
+/* Desk */
+
+.desk {
+
+    position: absolute;
+
+    bottom: 45px;
+
+    left: 20px;
+
+    width: 260px;
+
+    height: 18px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,.9);
+
+}
+
+
+/* Desk legs */
+
+.desk::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 10px;
+
+    height: 50px;
+
+    background: rgba(255,255,255,.75);
+
+    left: 30px;
+
+    top: 15px;
+
+}
+
+.desk::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 10px;
+
+    height: 50px;
+
+    background: rgba(255,255,255,.75);
+
+    right: 30px;
+
+    top: 15px;
+
+}
+
+
+/* Laptop */
+
+.laptop {
+
+    position: absolute;
+
+    width: 100px;
+
+    height: 70px;
+
+    left: 105px;
+
+    bottom: 15px;
+
+}
+
+
+/* Laptop screen */
+
+.laptop-screen {
+
+    width: 90px;
+
+    height: 55px;
+
+    margin: auto;
+
+    border: 5px solid #263238;
+
+    border-radius: 6px 6px 2px 2px;
+
+    background: #0f172a;
+
+    padding: 10px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+}
+
+
+/* Screen typing lines */
+
+.laptop-screen span {
+
+    height: 4px;
+
+    border-radius: 4px;
+
+    background: #60a5fa;
+
+    animation: typing 1s infinite alternate;
+
+}
+
+.laptop-screen span:nth-child(2) {
+
+    width: 70%;
+
+    animation-delay: .2s;
+
+}
+
+.laptop-screen span:nth-child(3) {
+
+    width: 50%;
+
+    animation-delay: .4s;
+
+}
+
+
+/* Laptop base */
+
+.laptop-base {
+
+    width: 105px;
+
+    height: 7px;
+
+    background: #263238;
+
+    border-radius: 0 0 10px 10px;
+
+    margin-left: -8px;
+
+}
+
+
+/* Writing effect */
+
+.writing-effect {
+
+    position: absolute;
+
+    left: 100px;
+
+    bottom: 25px;
+
+}
+
+.writing-effect span {
+
+    display: block;
+
+    width: 5px;
+
+    height: 5px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    margin: 4px;
+
+    opacity: 0;
+
+    animation: writingDot .8s infinite;
+
+}
+
+.writing-effect span:nth-child(2) {
+
+    animation-delay: .2s;
+
+}
+
+.writing-effect span:nth-child(3) {
+
+    animation-delay: .4s;
+
+}
+
+
+/* Person movement */
+
+@keyframes personMove {
+
+    0%,
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-5px);
+
+    }
+
+}
+
+
+/* Writing */
+
+@keyframes writingArm {
+
+    0% {
+
+        transform: rotate(25deg);
+
+    }
+
+    100% {
+
+        transform: rotate(45deg);
+
+    }
+
+}
+
+
+/* Typing */
+
+@keyframes typing {
+
+    0% {
+
+        opacity: .3;
+
+        transform: scaleX(.7);
+
+        transform-origin: left;
+
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform: scaleX(1);
+
+    }
+
+}
+
+
+/* Writing dots */
+
+@keyframes writingDot {
+
+    0% {
+
+        opacity: 0;
+
+        transform: translateX(0);
+
+    }
+
+    50% {
+
+        opacity: 1;
+
+        transform: translateX(15px);
+
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform: translateX(25px);
+
+    }
+
+}
+
+
+/* Title */
+
+.splash-title {
+
+    margin: 0;
+
+    font-size: 56px;
+
+    font-weight: 700;
+
+    letter-spacing: 12px;
+
+    animation: titleAppear 1s ease;
+
+}
+
+
+@keyframes titleAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* Subtitle */
+
+.splash-subtitle {
+
+    margin-top: 8px;
+
+    margin-bottom: 25px;
+
+    font-size: 17px;
+
+    color: rgba(255,255,255,.8);
+
+}
+
+
+/* Loading */
+
+.loading-container {
+
+    width: 220px;
+
+    margin: auto;
+
+}
+
+
+.loading-bar {
+
+    width: 100%;
+
+    height: 5px;
+
+    background: rgba(255,255,255,.2);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+.loading-progress {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: white;
+
+    border-radius: 10px;
+
+    animation: loadingProgress 3s linear forwards;
+
+}
+
+
+@keyframes loadingProgress {
+
+    from {
+
+        width: 0%;
+
+    }
+
+    to {
+
+        width: 100%;
+
+    }
+
+}
+
+
+.loading-text {
+
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 12px;
+
+    color: rgba(255,255,255,.65);
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 576px) {
+
+    .office-animation {
+
+        transform: scale(.8);
+
+    }
+
+    .splash-title {
+
+        font-size: 42px;
+
+        letter-spacing: 8px;
+
+    }
+
+}

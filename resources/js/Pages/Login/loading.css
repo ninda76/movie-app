@@ -1,0 +1,491 @@
+/* =========================================
+   LOGIN LOADING SCREEN
+========================================= */
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        135deg,
+        #4338ca 0%,
+        #4f46e5 45%,
+        #0284c7 100%
+    );
+
+    overflow: hidden;
+
+    z-index: 99999;
+}
+
+
+/* Decorative circles */
+
+.loading-screen::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    top: -250px;
+    left: -180px;
+}
+
+.loading-screen::after {
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    right: -180px;
+    bottom: -220px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.loading-content {
+    position: relative;
+
+    z-index: 2;
+
+    width: 360px;
+    height: 420px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   OFFICE PERSON
+========================================= */
+
+.office-person {
+    position: relative;
+
+    width: 110px;
+    height: 150px;
+
+    animation: personBounce 1s ease-in-out infinite;
+}
+
+
+/* Head */
+
+.person-head {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    background: #ffd0ad;
+
+    top: 5px;
+    left: 31px;
+
+    z-index: 3;
+}
+
+
+/* Hair */
+
+.person-head::before {
+    content: "";
+
+    position: absolute;
+
+    width: 50px;
+    height: 22px;
+
+    background: #263238;
+
+    border-radius: 50% 50% 30% 30%;
+
+    top: -3px;
+    left: -1px;
+}
+
+
+/* Body */
+
+.person-body {
+    position: absolute;
+
+    width: 55px;
+    height: 70px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    top: 52px;
+    left: 28px;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+
+/* Tie */
+
+.person-body::after {
+    content: "";
+
+    position: absolute;
+
+    width: 9px;
+    height: 40px;
+
+    background: #4f46e5;
+
+    top: 6px;
+    left: 23px;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 70%,
+        50% 100%,
+        0 70%
+    );
+}
+
+
+/* Arm */
+
+.person-arm {
+    position: absolute;
+
+    width: 55px;
+    height: 13px;
+
+    background: #ffd0ad;
+
+    border-radius: 20px;
+
+    top: 68px;
+    left: 68px;
+
+    transform-origin: left center;
+
+    animation: writingArm 0.55s ease-in-out infinite;
+
+    z-index: 4;
+}
+
+
+/* Legs */
+
+.person-leg {
+    position: absolute;
+
+    width: 15px;
+    height: 55px;
+
+    background: #1f2937;
+
+    border-radius: 10px;
+
+    top: 117px;
+
+    transform-origin: top center;
+}
+
+
+.person-leg-left {
+    left: 36px;
+
+    animation: walkLeft 0.6s ease-in-out infinite;
+}
+
+
+.person-leg-right {
+    left: 59px;
+
+    animation: walkRight 0.6s ease-in-out infinite;
+}
+
+
+/* =========================================
+   DESK
+========================================= */
+
+.loading-desk {
+    position: absolute;
+
+    width: 230px;
+    height: 80px;
+
+    top: 220px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+}
+
+
+.laptop {
+    position: absolute;
+
+    width: 78px;
+    height: 48px;
+
+    background: #e5e7eb;
+
+    border-radius: 6px;
+
+    left: 76px;
+    top: 0;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+
+.laptop::after {
+    content: "";
+
+    position: absolute;
+
+    width: 92px;
+    height: 7px;
+
+    background: #cbd5e1;
+
+    left: -7px;
+    bottom: -7px;
+
+    border-radius: 0 0 6px 6px;
+}
+
+
+.desk-line {
+    position: absolute;
+
+    width: 230px;
+    height: 9px;
+
+    background: white;
+
+    bottom: 8px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================
+   LOGIN TEXT
+========================================= */
+.loading-title {
+    position: absolute;
+
+    top: 285px;
+    left: 0;
+    right: 0;
+
+    margin: 0;
+
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: 9px;
+
+    line-height: 1.2;
+
+    text-align: center;
+
+    animation: loginPulse 1.4s ease-in-out infinite;
+}
+
+
+.loading-subtitle {
+    position: absolute;
+
+    top: 345px;
+    left: 0;
+    right: 0;
+
+    margin: 0;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+    opacity: 0.85;
+}
+
+
+/* =========================================
+   DOTS
+========================================= */
+
+.loading-dots {
+    position: absolute;
+
+    top: 390px;
+    left: 0;
+    right: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin: 0;
+}
+
+
+.loading-dots span {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    animation: loadingDot 1.2s infinite;
+}
+
+
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+
+/* =========================================
+   ANIMATION
+========================================= */
+
+@keyframes personBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+
+@keyframes writingArm {
+
+    0%,
+    100% {
+        transform: rotate(20deg);
+    }
+
+    50% {
+        transform: rotate(35deg);
+    }
+}
+
+
+@keyframes walkLeft {
+
+    0%,
+    100% {
+        transform: rotate(15deg);
+    }
+
+    50% {
+        transform: rotate(-15deg);
+    }
+}
+
+
+@keyframes walkRight {
+
+    0%,
+    100% {
+        transform: rotate(-15deg);
+    }
+
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+
+@keyframes loginPulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.06);
+    }
+}
+
+
+@keyframes loadingDot {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-6px);
+    }
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .loading-content {
+        transform: scale(0.85);
+    }
+
+}
