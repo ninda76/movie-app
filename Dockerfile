@@ -29,10 +29,15 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # ==========================================
-# Fix Apache MPM
-# Only ONE MPM must be loaded
+# Apache MPM
+# PHP + Apache harus menggunakan prefork
+# Pastikan MPM lain benar-benar dihapus
 # ==========================================
-RUN a2dismod mpm_event mpm_worker || true \
+RUN a2dismod mpm_event || true \
+    && a2dismod mpm_worker || true \
+    && rm -f /etc/apache2/mods-enabled/mpm_event.* \
+    && rm -f /etc/apache2/mods-enabled/mpm_worker.* \
+    && rm -f /etc/apache2/mods-enabled/mpm_prefork.* \
     && a2enmod mpm_prefork \
     && a2enmod rewrite
 
@@ -62,7 +67,7 @@ RUN composer install \
 
 # ==========================================
 # Apache document root
-# Laravel must use /public
+# Laravel menggunakan /public
 # ==========================================
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
@@ -96,7 +101,8 @@ set -e\n\
 PORT=${PORT:-8080}\n\
 sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf\n\
 sed -i "s/:80>/:${PORT}>/g" /etc/apache2/sites-available/000-default.conf\n\
-exec apache2-foreground\n' > /usr/local/bin/start-apache.sh \
+exec apache2-foreground\n\
+' > /usr/local/bin/start-apache.sh \
     && chmod +x /usr/local/bin/start-apache.sh
 
 EXPOSE 80
