@@ -5,16 +5,12 @@ FROM node:22 AS frontend
 
 WORKDIR /app
 
-# Copy package files
 COPY package*.json ./
 
-# Install frontend dependencies
 RUN npm ci
 
-# Copy source application
 COPY . .
 
-# Build Vite
 RUN npm run build
 
 
@@ -23,8 +19,9 @@ RUN npm run build
 # ==========================================
 FROM php:8.3-apache
 
+
 # ==========================================
-# Install system dependencies & PHP extensions
+# Install PHP extensions
 # ==========================================
 RUN apt-get update && apt-get install -y \
     git \
@@ -53,21 +50,9 @@ RUN apt-get update && apt-get install -y \
 
 
 # ==========================================
-# Apache MPM
+# Apache
 # ==========================================
-# ==========================================
-# FIX APACHE MPM
-# Pastikan hanya mpm_prefork yang aktif
-# ==========================================
-RUN rm -f \
-        /etc/apache2/mods-enabled/mpm_event.load \
-        /etc/apache2/mods-enabled/mpm_event.conf \
-        /etc/apache2/mods-enabled/mpm_worker.load \
-        /etc/apache2/mods-enabled/mpm_worker.conf \
-        /etc/apache2/mods-enabled/mpm_prefork.load \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && a2enmod mpm_prefork \
-    && a2enmod rewrite
+RUN a2enmod rewrite
 
 
 # ==========================================
@@ -77,26 +62,21 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 
 # ==========================================
-# Working directory
+# Laravel
 # ==========================================
 WORKDIR /var/www/html
 
-
-# ==========================================
-# Copy Laravel application
-# ==========================================
 COPY . .
 
 
 # ==========================================
-# Copy Vite production build
-# dari frontend stage
+# Vite production build
 # ==========================================
 COPY --from=frontend /app/public/build /var/www/html/public/build
 
 
 # ==========================================
-# Install Laravel dependencies
+# Composer dependencies
 # ==========================================
 RUN composer install \
     --no-dev \
@@ -112,7 +92,7 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 
 # ==========================================
-# Configure Apache DocumentRoot
+# Apache DocumentRoot
 # ==========================================
 RUN sed -ri \
     -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
@@ -122,7 +102,7 @@ RUN sed -ri \
 
 
 # ==========================================
-# SQLite database
+# SQLite
 # ==========================================
 RUN mkdir -p database \
     && touch database/database.sqlite \
@@ -149,26 +129,48 @@ RUN mkdir -p \
 
 
 # ==========================================
-# Railway Apache PORT
+# Apache startup script
 # ==========================================
 RUN printf '#!/bin/bash\n\
 set -e\n\
+\n\
+echo "Fixing Apache MPM configuration..."\n\
+\n\
+a2dismod mpm_event 2>/dev/null || true\n\
+a2dismod mpm_worker 2>/dev/null || true\n\
+a2dismod mpm_prefork 2>/dev/null || true\n\
+\n\
+rm -f /etc/apache2/mods-enabled/mpm_event.load\n\
+rm -f /etc/apache2/mods-enabled/mpm_event.conf\n\
+rm -f /etc/apache2/mods-enabled/mpm_worker.load\n\
+rm -f /etc/apache2/mods-enabled/mpm_worker.conf\n\
+rm -f /etc/apache2/mods-enabled/mpm_prefork.load\n\
+rm -f /etc/apache2/mods-enabled/mpm_prefork.conf\n\
+\n\
+a2enmod mpm_prefork\n\
+a2enmod rewrite\n\
+\n\
+echo "Checking Apache configuration..."\n\
+apache2ctl -t\n\
+\n\
 PORT=${PORT:-8080}\n\
 echo "Starting Apache on port ${PORT}"\n\
+\n\
 sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf\n\
 sed -i "s/<VirtualHost \\*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf\n\
+\n\
 exec apache2-foreground\n\
 ' > /usr/local/bin/start-apache.sh \
     && chmod +x /usr/local/bin/start-apache.sh
 
 
 # ==========================================
-# Expose
+# Railway
 # ==========================================
 EXPOSE 80
 
 
 # ==========================================
-# Start Apache
+# Start
 # ==========================================
 CMD ["/usr/local/bin/start-apache.sh"]
