@@ -1,3 +1,26 @@
+# ==========================================
+# STAGE 1 - Build Vite frontend
+# ==========================================
+FROM node:22 AS frontend
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install frontend dependencies
+RUN npm ci
+
+# Copy source application
+COPY . .
+
+# Build Vite
+RUN npm run build
+
+
+# ==========================================
+# STAGE 2 - Laravel + Apache
+# ==========================================
 FROM php:8.3-apache
 
 # ==========================================
@@ -28,37 +51,39 @@ RUN apt-get update && apt-get install -y \
         zip \
     && rm -rf /var/lib/apt/lists/*
 
-# ==========================================
-# FIX APACHE MPM
-# Hapus SEMUA MPM yang mungkin aktif
-# lalu aktifkan hanya prefork
-# ==========================================
-RUN a2dismod mpm_event mpm_worker mpm_prefork || true \
-    && rm -f \
-        /etc/apache2/mods-enabled/mpm_event.load \
-        /etc/apache2/mods-enabled/mpm_event.conf \
-        /etc/apache2/mods-enabled/mpm_worker.load \
-        /etc/apache2/mods-enabled/mpm_worker.conf \
-        /etc/apache2/mods-enabled/mpm_prefork.load \
-        /etc/apache2/mods-enabled/mpm_prefork.conf \
-    && a2enmod mpm_prefork \
-    && a2enmod rewrite \
-    && apache2ctl -t
 
 # ==========================================
-# Install Composer
+# Apache MPM
+# ==========================================
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
+    && a2enmod mpm_prefork \
+    && a2enmod rewrite
+
+
+# ==========================================
+# Composer
 # ==========================================
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 
 # ==========================================
 # Working directory
 # ==========================================
 WORKDIR /var/www/html
 
+
 # ==========================================
 # Copy Laravel application
 # ==========================================
 COPY . .
+
+
+# ==========================================
+# Copy Vite production build
+# dari frontend stage
+# ==========================================
+COPY --from=frontend /app/public/build /var/www/html/public/build
+
 
 # ==========================================
 # Install Laravel dependencies
@@ -69,10 +94,12 @@ RUN composer install \
     --no-interaction \
     --prefer-dist
 
+
 # ==========================================
 # Laravel environment
 # ==========================================
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
 
 # ==========================================
 # Configure Apache DocumentRoot
@@ -82,6 +109,17 @@ RUN sed -ri \
     /etc/apache2/sites-available/*.conf \
     /etc/apache2/apache2.conf \
     /etc/apache2/conf-available/*.conf
+
+
+# ==========================================
+# SQLite database
+# ==========================================
+RUN mkdir -p database \
+    && touch database/database.sqlite \
+    && chown -R www-data:www-data database \
+    && chmod 775 database \
+    && chmod 664 database/database.sqlite
+
 
 # ==========================================
 # Laravel permissions
@@ -99,9 +137,9 @@ RUN mkdir -p \
         storage \
         bootstrap/cache
 
+
 # ==========================================
-# Railway PORT
-# Apache harus listen pada PORT Railway
+# Railway Apache PORT
 # ==========================================
 RUN printf '#!/bin/bash\n\
 set -e\n\
@@ -113,12 +151,14 @@ exec apache2-foreground\n\
 ' > /usr/local/bin/start-apache.sh \
     && chmod +x /usr/local/bin/start-apache.sh
 
+
 # ==========================================
 # Expose
 # ==========================================
 EXPOSE 80
 
+
 # ==========================================
 # Start Apache
 # ==========================================
-CMD ["bash", "-c", "a2dismod mpm_event mpm_worker mpm_prefork || true; rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf; a2enmod mpm_prefork; apache2ctl -t; exec /usr/local/bin/start-apache.sh"]
+CMD ["/usr/local/bin/start-apache.sh"]
