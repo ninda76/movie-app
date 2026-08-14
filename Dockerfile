@@ -1,6 +1,8 @@
 FROM php:8.3-apache
 
-# Install system dependencies
+# ==========================================
+# Install system dependencies & PHP extensions
+# ==========================================
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,7 +14,9 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-configure gd \
+        --with-freetype \
+        --with-jpeg \
     && docker-php-ext-install \
         pdo_mysql \
         mbstring \
@@ -22,33 +26,55 @@ RUN apt-get update && apt-get install -y \
         pcntl \
         gd \
         zip \
-    && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
+# ==========================================
+# Fix Apache MPM
+# Only ONE MPM must be loaded
+# ==========================================
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork \
+    && a2enmod rewrite
+
+# ==========================================
 # Install Composer
+# ==========================================
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# ==========================================
+# Working directory
+# ==========================================
 WORKDIR /var/www/html
 
-# Copy Laravel project
+# ==========================================
+# Copy Laravel application
+# ==========================================
 COPY . .
 
-# Install PHP dependencies
+# ==========================================
+# Install Laravel dependencies
+# ==========================================
 RUN composer install \
     --no-dev \
     --optimize-autoloader \
-    --no-interaction
+    --no-interaction \
+    --prefer-dist
 
-# Configure Apache to use Laravel public directory
+# ==========================================
+# Apache document root
+# Laravel must use /public
+# ==========================================
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+RUN sed -ri \
+    -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
     /etc/apache2/sites-available/*.conf \
     /etc/apache2/apache2.conf \
     /etc/apache2/conf-available/*.conf
 
-# Create required Laravel directories and permissions
+# ==========================================
+# Laravel permissions
+# ==========================================
 RUN mkdir -p \
     storage/framework/cache \
     storage/framework/sessions \
@@ -62,8 +88,17 @@ RUN mkdir -p \
         storage \
         bootstrap/cache
 
-# Render provides PORT at runtime.
-# Apache listens on port 80 inside the container.
+# ==========================================
+# Railway PORT
+# ==========================================
+RUN printf '#!/bin/bash\n\
+set -e\n\
+PORT=${PORT:-8080}\n\
+sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf\n\
+sed -i "s/:80>/:${PORT}>/g" /etc/apache2/sites-available/000-default.conf\n\
+exec apache2-foreground\n' > /usr/local/bin/start-apache.sh \
+    && chmod +x /usr/local/bin/start-apache.sh
+
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["/usr/local/bin/start-apache.sh"]
