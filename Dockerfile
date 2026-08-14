@@ -33,7 +33,8 @@ RUN apt-get update && apt-get install -y \
 # Hapus SEMUA MPM yang mungkin aktif
 # lalu aktifkan hanya prefork
 # ==========================================
-RUN rm -f \
+RUN a2dismod mpm_event mpm_worker mpm_prefork || true \
+    && rm -f \
         /etc/apache2/mods-enabled/mpm_event.load \
         /etc/apache2/mods-enabled/mpm_event.conf \
         /etc/apache2/mods-enabled/mpm_worker.load \
@@ -41,7 +42,8 @@ RUN rm -f \
         /etc/apache2/mods-enabled/mpm_prefork.load \
         /etc/apache2/mods-enabled/mpm_prefork.conf \
     && a2enmod mpm_prefork \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && apache2ctl -t
 
 # ==========================================
 # Install Composer
